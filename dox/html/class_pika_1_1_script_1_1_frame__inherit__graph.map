@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node3" href="$class_pika_1_1_script_1_1_root.html" title="The Root is the first Frame you instantiate." alt="" coords="15,83,201,112"/>
+<area shape="rect" id="node5" href="$class_pika_1_1_script_1_1_full_root.html" title="FullRoot inherits from both Root and CFG::Globals (which should be a descendant to Variable)..." alt="" coords="5,160,211,189"/>
+</map>

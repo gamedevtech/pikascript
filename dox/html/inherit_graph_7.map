@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$class_pika_1_1_script_1_1_variables.html" title="Variables is an abstract base class which implements the interface to the variable space that a Frame..." alt="" coords="7,5,220,35"/>
+<area shape="rect" id="node3" href="$class_pika_1_1_script_1_1_s_t_l_variables.html" title="STLVariables is the reference implementation of a variable space." alt="" coords="269,5,507,35"/>
+</map>

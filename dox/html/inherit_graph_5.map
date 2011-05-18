@@ -1,0 +1,5 @@
+<map id="G" name="G">
+<area shape="rect" id="node1" href="$class_pika_1_1_script_1_1_frame.html" title="The execution context and interpreter for PikaScript." alt="" coords="7,5,204,35"/>
+<area shape="rect" id="node3" href="$class_pika_1_1_script_1_1_root.html" title="The Root is the first Frame you instantiate." alt="" coords="253,5,440,35"/>
+<area shape="rect" id="node5" href="$class_pika_1_1_script_1_1_full_root.html" title="FullRoot inherits from both Root and CFG::Globals (which should be a descendant to Variable)..." alt="" coords="489,5,695,35"/>
+</map>

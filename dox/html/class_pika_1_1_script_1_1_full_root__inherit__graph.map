@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" id="node2" href="$class_pika_1_1_script_1_1_root.html" title="The Root is the first Frame you instantiate." alt="" coords="15,83,201,112"/>
+<area shape="rect" id="node4" href="$class_pika_1_1_script_1_1_frame.html" title="The execution context and interpreter for PikaScript." alt="" coords="9,5,207,35"/>
+</map>
