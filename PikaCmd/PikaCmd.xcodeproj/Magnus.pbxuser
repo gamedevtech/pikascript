@@ -1,21 +1,22 @@
 // !$*UTF8*$!
 {
 	08FB7793FE84155DC02AAC07 /* Project object */ = {
-		activeArchitecturePreference = x86_64;
-		activeBuildConfigurationName = Release;
-		activeExecutable = F70440F51382AF2300B7D202 /* PikaCmd GCC */;
+		activeArchitecturePreference = i386;
+		activeBuildConfigurationName = Debug;
+		activeExecutable = F79520E916B83C2100F0485E /* PikaCmd GCC */;
 		activeTarget = 8DD76F620486A84900D96B5E /* PikaCmd GCC */;
 		addToTargets = (
 			8DD76F620486A84900D96B5E /* PikaCmd GCC */,
 		);
 		breakpoints = (
 			F7EE8B41112A0AA400B04671 /* PBXCPPExceptionBreakpoint */,
-			F7EE8C2E112A1BA300B04671 /* PikaScriptImpl.h:284 */,
+			F7EE8C2E112A1BA300B04671 /* PikaScriptImpl.h:282 */,
 		);
 		codeSenseManager = F716649B0FC1653800454DFB /* Code sense */;
 		executables = (
-			F70440F51382AF2300B7D202 /* PikaCmd GCC */,
-			F70440F71382AF2300B7D202 /* PikaCmd GCC Small x86 */,
+			F79520E916B83C2100F0485E /* PikaCmd GCC */,
+			F79520EB16B83C2200F0485E /* PikaCmd GCC Small x86 */,
+			F79520ED16B83C2200F0485E /* PikaCmd GCC 64-bit */,
 		);
 		perUserDictionary = {
 			"PBXConfiguration.PBXBreakpointsDataSource.v1:1CA1AED706398EBD00589147" = {
@@ -73,7 +74,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					762,
+					922,
 					20,
 					48,
 					43,
@@ -95,11 +96,27 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFindDataSource_LocationID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					200,
-					793.2085,
+					776,
 				);
 				PBXFileTableDataSourceColumnsKey = (
 					PBXFindDataSource_MessageID,
 					PBXFindDataSource_LocationID,
+				);
+			};
+			PBXConfiguration.PBXFileTableDataSource3.PBXSymbolsDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXSymbolsDataSource_SymbolNameID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					16,
+					200,
+					50,
+					702.20849609375,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXSymbolsDataSource_SymbolTypeIconID,
+					PBXSymbolsDataSource_SymbolNameID,
+					PBXSymbolsDataSource_SymbolTypeID,
+					PBXSymbolsDataSource_ReferenceNameID,
 				);
 			};
 			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
@@ -107,7 +124,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
-					722,
+					737,
 					60,
 					20,
 					48,
@@ -124,25 +141,18 @@
 					PBXFileDataSource_Warnings_ColumnID,
 				);
 			};
-			PBXPerProjectTemplateStateSaveDate = 327331108;
-			PBXWorkspaceStateSaveDate = 327331108;
+			PBXPerProjectTemplateStateSaveDate = 388327164;
+			PBXWorkspaceStateSaveDate = 388327164;
 		};
 		perUserProjectItems = {
-			F70440CF1382ADFF00B7D202 /* PBXTextBookmark */ = F70440CF1382ADFF00B7D202 /* PBXTextBookmark */;
-			F70440D01382ADFF00B7D202 /* PBXTextBookmark */ = F70440D01382ADFF00B7D202 /* PBXTextBookmark */;
-			F70441221382AF9C00B7D202 /* PBXTextBookmark */ = F70441221382AF9C00B7D202 /* PBXTextBookmark */;
-			F70441231382AF9C00B7D202 /* PBXTextBookmark */ = F70441231382AF9C00B7D202 /* PBXTextBookmark */;
-			F70441251382AF9C00B7D202 /* PBXTextBookmark */ = F70441251382AF9C00B7D202 /* PBXTextBookmark */;
-			F71CF6E91365ECC3000BD525 /* PBXTextBookmark */ = F71CF6E91365ECC3000BD525 /* PBXTextBookmark */;
-			F721D44E12F64256006BA722 /* PBXTextBookmark */ = F721D44E12F64256006BA722 /* PBXTextBookmark */;
-			F74509E8128A06D3008DB25C /* PBXTextBookmark */ = F74509E8128A06D3008DB25C /* PBXTextBookmark */;
-			F7B0340713722C7C00F7005C /* PBXTextBookmark */ = F7B0340713722C7C00F7005C /* PBXTextBookmark */;
-			F7B0340813722C7C00F7005C /* PBXTextBookmark */ = F7B0340813722C7C00F7005C /* PBXTextBookmark */;
-			F7B0340A13722C7C00F7005C /* PBXTextBookmark */ = F7B0340A13722C7C00F7005C /* PBXTextBookmark */;
-			F7B0340C13722C7C00F7005C /* PBXTextBookmark */ = F7B0340C13722C7C00F7005C /* PBXTextBookmark */;
-			F7B0340D13722C7C00F7005C /* PBXTextBookmark */ = F7B0340D13722C7C00F7005C /* PBXTextBookmark */;
-			F7B0341013722C7C00F7005C /* PBXTextBookmark */ = F7B0341013722C7C00F7005C /* PBXTextBookmark */;
-			F7B0341613722C7C00F7005C /* PBXTextBookmark */ = F7B0341613722C7C00F7005C /* PBXTextBookmark */;
+			F75323661725658D008358C0 = F75323661725658D008358C0 /* PBXTextBookmark */;
+			F75323671725658D008358C0 = F75323671725658D008358C0 /* PBXTextBookmark */;
+			F75323681725658D008358C0 = F75323681725658D008358C0 /* PBXTextBookmark */;
+			F7532370172566FD008358C0 /* PBXTextBookmark */ = F7532370172566FD008358C0 /* PBXTextBookmark */;
+			F753237417256707008358C0 /* PBXTextBookmark */ = F753237417256707008358C0 /* PBXTextBookmark */;
+			F7CD477916DA896800101EF2 = F7CD477916DA896800101EF2 /* PBXTextBookmark */;
+			F7F5F2501707B2D100DAA47C = F7F5F2501707B2D100DAA47C /* PBXTextBookmark */;
+			F7F673CB17255F6900C8E0F8 = F7F673CB17255F6900C8E0F8 /* PBXTextBookmark */;
 		};
 		sourceControlManager = F716649A0FC1653800454DFB /* Source Control */;
 		userBuildSettings = {
@@ -152,30 +162,127 @@
 	8DD76F620486A84900D96B5E /* PikaCmd GCC */ = {
 		activeExec = 0;
 		executables = (
-			F70440F51382AF2300B7D202 /* PikaCmd GCC */,
+			F79520E916B83C2100F0485E /* PikaCmd GCC */,
 		);
 	};
-	F70440CF1382ADFF00B7D202 /* PBXTextBookmark */ = {
+	F716649A0FC1653800454DFB /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 1;
+		scmConfiguration = {
+			SubversionToolPath = /opt/local/bin/svn;
+			repositoryName = "";
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+		scmType = scm.subversion;
+	};
+	F716649B0FC1653800454DFB /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	F74062DF10E989D40044ADBD /* PikaCmd GCC Small x86 */ = {
+		activeExec = 0;
+		executables = (
+			F79520EB16B83C2200F0485E /* PikaCmd GCC Small x86 */,
+		);
+	};
+	F75323661725658D008358C0 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
 		fRef = F7B8C1F910CC7DCD00EC2AE3 /* PikaScriptImpl.h */;
-		name = "PikaScriptImpl.h: 30";
-		rLen = 0;
-		rLoc = 1263;
+		name = "PikaScriptImpl.h: 206";
+		rLen = 4;
+		rLoc = 9490;
 		rType = 0;
-		vrLen = 2325;
-		vrLoc = 0;
+		vrLen = 2959;
+		vrLoc = 8075;
 	};
-	F70440D01382ADFF00B7D202 /* PBXTextBookmark */ = {
+	F75323671725658D008358C0 /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
-		fRef = F7905AFD10C47FBF00FF4A18 /* PikaCmd.cpp */;
-		name = "PikaCmd.cpp: 150";
+		fRef = F7905B0510C47FD100FF4A18 /* PikaScript.cpp */;
+		name = "PikaScript.cpp: 52";
 		rLen = 0;
-		rLoc = 6602;
+		rLoc = 2028;
 		rType = 0;
-		vrLen = 2742;
+		vrLen = 2028;
 		vrLoc = 0;
 	};
-	F70440F51382AF2300B7D202 /* PikaCmd GCC */ = {
+	F75323681725658D008358C0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F7905B0610C47FD100FF4A18 /* PikaScript.h */;
+		name = "PikaScript.h: 538";
+		rLen = 4;
+		rLoc = 45913;
+		rType = 0;
+		vrLen = 3589;
+		vrLoc = 43222;
+	};
+	F7532370172566FD008358C0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F7905B0610C47FD100FF4A18 /* PikaScript.h */;
+		name = "PikaScript.h: 538";
+		rLen = 4;
+		rLoc = 45913;
+		rType = 0;
+		vrLen = 3589;
+		vrLoc = 43222;
+	};
+	F753237417256707008358C0 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F7905B0610C47FD100FF4A18 /* PikaScript.h */;
+		name = "PikaScript.h: 538";
+		rLen = 4;
+		rLoc = 45913;
+		rType = 0;
+		vrLen = 3589;
+		vrLoc = 43222;
+	};
+	F7905AFD10C47FBF00FF4A18 /* PikaCmd.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1227, 2613}}";
+			sepNavSelRange = "{6772, 0}";
+			sepNavVisRange = "{6813, 534}";
+			sepNavVisRect = "{{0, 2549}, {1096, 700}}";
+			sepNavWindowFrame = "{{19, 0}, {1230, 778}}";
+		};
+	};
+	F7905B0510C47FD100FF4A18 /* PikaScript.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1112, 744}}";
+			sepNavSelRange = "{2028, 0}";
+			sepNavVisRange = "{0, 2028}";
+			sepNavVisRect = "{{0, 383}, {1096, 700}}";
+			sepNavWindowFrame = "{{19, -5}, {1230, 778}}";
+		};
+	};
+	F7905B0610C47FD100FF4A18 /* PikaScript.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {2756, 8216}}";
+			sepNavSelRange = "{45913, 4}";
+			sepNavVisRange = "{43222, 3589}";
+			sepNavVisRect = "{{0, 6783}, {1096, 700}}";
+			sepNavWindowFrame = "{{19, 0}, {1163, 778}}";
+		};
+	};
+	F7905B0810C47FD100FF4A18 /* QStrings.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {952, 1222}}";
+			sepNavSelRange = "{939, 0}";
+			sepNavVisRange = "{0, 2427}";
+			sepNavVisRect = "{{0, 0}, {977, 645}}";
+		};
+	};
+	F7905B0910C47FD100FF4A18 /* QStrings.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1112, 4979}}";
+			sepNavSelRange = "{6733, 0}";
+			sepNavVisRange = "{5912, 2212}";
+			sepNavVisRect = "{{0, 0}, {977, 645}}";
+			sepNavWindowFrame = "{{19, -5}, {1230, 778}}";
+		};
+	};
+	F79520E916B83C2100F0485E /* PikaCmd GCC */ = {
 		isa = PBXExecutable;
 		activeArgIndices = (
 		);
@@ -191,6 +298,7 @@
 		dataTipSortType = 0;
 		debuggerPlugin = GDBDebugging;
 		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
 		enableDebugStr = 1;
 		environmentEntries = (
 		);
@@ -198,11 +306,13 @@
 		executableUserSymbolLevel = 0;
 		libgmallocEnabled = 0;
 		name = "PikaCmd GCC";
+		savedGlobals = {
+		};
 		showTypeColumn = 0;
 		sourceDirectories = (
 		);
 	};
-	F70440F71382AF2300B7D202 /* PikaCmd GCC Small x86 */ = {
+	F79520EB16B83C2200F0485E /* PikaCmd GCC Small x86 */ = {
 		isa = PBXExecutable;
 		activeArgIndices = (
 		);
@@ -229,301 +339,72 @@
 		sourceDirectories = (
 		);
 	};
-	F70441221382AF9C00B7D202 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F7B2F97B10C48AD800CD08A4 /* BuiltIns.cpp */;
-		name = "BuiltIns.cpp: 830";
-		rLen = 0;
-		rLoc = 91968;
-		rType = 0;
-		vrLen = 1317;
-		vrLoc = 0;
-	};
-	F70441231382AF9C00B7D202 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F70441241382AF9C00B7D202 /* UpdatePikaScriptDox.pika */;
-		name = "UpdatePikaScriptDox.pika: 26";
-		rLen = 0;
-		rLoc = 1035;
-		rType = 0;
-		vrLen = 1114;
-		vrLoc = 0;
-	};
-	F70441241382AF9C00B7D202 /* UpdatePikaScriptDox.pika */ = {
-		isa = PBXFileReference;
-		name = UpdatePikaScriptDox.pika;
-		path = /Users/magnus/projects/PikaScript/dox/UpdatePikaScriptDox.pika;
-		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1191, 624}}";
-			sepNavSelRange = "{1035, 0}";
-			sepNavVisRange = "{0, 1114}";
-			sepNavWindowFrame = "{{42, 0}, {1238, 752}}";
-		};
-	};
-	F70441251382AF9C00B7D202 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F70441261382AF9C00B7D202 /* htmlify.pika */;
-		name = "htmlify.pika: 47";
-		rLen = 8;
-		rLoc = 2612;
-		rType = 0;
-		vrLen = 2410;
-		vrLoc = 764;
-	};
-	F70441261382AF9C00B7D202 /* htmlify.pika */ = {
-		isa = PBXFileReference;
-		name = htmlify.pika;
-		path = /Users/magnus/projects/PikaScript/dox/htmlify.pika;
-		sourceTree = "<absolute>";
-	};
-	F716649A0FC1653800454DFB /* Source Control */ = {
-		isa = PBXSourceControlManager;
-		fallbackIsa = XCSourceControlManager;
-		isSCMEnabled = 1;
-		scmConfiguration = {
-			SubversionToolPath = /opt/local/bin/svn;
-			repositoryName = "";
-			repositoryNamesForRoots = {
-				"" = "";
-			};
-		};
-		scmType = scm.subversion;
-	};
-	F716649B0FC1653800454DFB /* Code sense */ = {
-		isa = PBXCodeSenseManager;
-		indexTemplatePath = "";
-	};
-	F71CF6E91365ECC3000BD525 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F7B2F97B10C48AD800CD08A4 /* BuiltIns.cpp */;
-		name = "BuiltIns.cpp: 1";
-		rLen = 0;
-		rLoc = 0;
-		rType = 0;
-		vrLen = 1802;
-		vrLoc = 0;
-	};
-	F71CF73013663EDF000BD525 /* help.pika */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = text;
-		name = help.pika;
-		path = /Users/magnus/projects/PikaScript/src/help.pika;
-		sourceTree = "<absolute>";
-	};
-	F721D44E12F64256006BA722 /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F721D44F12F64256006BA722 /* stdlib.pika */;
-		name = "stdlib.pika: 211";
-		rLen = 0;
-		rLoc = 8886;
-		rType = 0;
-		vrLen = 1988;
-		vrLoc = 7728;
-	};
-	F721D44F12F64256006BA722 /* stdlib.pika */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = text;
-		name = stdlib.pika;
-		path = /Users/magnus/projects/PikaScript/src/stdlib.pika;
-		sourceTree = "<absolute>";
-	};
-	F74062DF10E989D40044ADBD /* PikaCmd GCC Small x86 */ = {
-		activeExec = 0;
-		executables = (
-			F70440F71382AF2300B7D202 /* PikaCmd GCC Small x86 */,
+	F79520ED16B83C2200F0485E /* PikaCmd GCC 64-bit */ = {
+		isa = PBXExecutable;
+		activeArgIndices = (
 		);
-	};
-	F74509E8128A06D3008DB25C /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F7E347EB1288988400F6D4AE /* BuildPikaCmdGCC.command */;
-		name = "BuildPikaCmdGCC.command: 10";
-		rLen = 0;
-		rLoc = 231;
-		rType = 0;
-		vrLen = 1529;
-		vrLoc = 0;
-	};
-	F7905AFD10C47FBF00FF4A18 /* PikaCmd.cpp */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1538, 2223}}";
-			sepNavSelRange = "{6602, 0}";
-			sepNavVisRange = "{0, 2742}";
-			sepNavVisRect = "{{0, 2549}, {1096, 700}}";
-			sepNavWindowFrame = "{{19, -5}, {1230, 778}}";
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		breakpointsEnabled = 0;
+		configStateDict = {
 		};
-	};
-	F7905B0510C47FD100FF4A18 /* PikaScript.cpp */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {952, 741}}";
-			sepNavSelRange = "{1395, 0}";
-			sepNavVisRange = "{103, 2267}";
-			sepNavVisRect = "{{0, 383}, {1096, 700}}";
-			sepNavWindowFrame = "{{19, -5}, {1230, 778}}";
-		};
-	};
-	F7905B0610C47FD100FF4A18 /* PikaScript.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {6011, 7644}}";
-			sepNavSelRange = "{46690, 0}";
-			sepNavVisRange = "{0, 2366}";
-			sepNavVisRect = "{{0, 6783}, {1096, 700}}";
-			sepNavWindowFrame = "{{19, -5}, {1163, 778}}";
-		};
-	};
-	F7905B0810C47FD100FF4A18 /* QStrings.cpp */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {980, 1976}}";
-			sepNavSelRange = "{776, 0}";
-			sepNavVisRect = "{{0, 0}, {977, 645}}";
-		};
-	};
-	F7905B0910C47FD100FF4A18 /* QStrings.h */ = {
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1076, 7752}}";
-			sepNavSelRange = "{774, 0}";
-			sepNavVisRect = "{{0, 0}, {977, 645}}";
-			sepNavWindowFrame = "{{19, -5}, {1230, 778}}";
-		};
-	};
-	F7B0340713722C7C00F7005C /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F71CF73013663EDF000BD525 /* help.pika */;
-		name = "help.pika: 172";
-		rLen = 0;
-		rLoc = 47410;
-		rType = 0;
-		vrLen = 18593;
-		vrLoc = 34700;
-	};
-	F7B0340813722C7C00F7005C /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F7B0340913722C7C00F7005C /* ExportHelp.pika */;
-		name = "ExportHelp.pika: 33";
-		rLen = 0;
-		rLoc = 889;
-		rType = 0;
-		vrLen = 1325;
-		vrLoc = 0;
-	};
-	F7B0340913722C7C00F7005C /* ExportHelp.pika */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = text;
-		name = ExportHelp.pika;
-		path = /users/magnus/projects/PikaScript/dox/ExportHelp.pika;
-		sourceTree = "<absolute>";
-	};
-	F7B0340A13722C7C00F7005C /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F7B0340B13722C7C00F7005C /* PikaTest.cpp */;
-		name = "PikaTest.cpp: 265";
-		rLen = 0;
-		rLoc = 9792;
-		rType = 0;
-		vrLen = 2227;
-		vrLoc = 8378;
-	};
-	F7B0340B13722C7C00F7005C /* PikaTest.cpp */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = sourcecode.cpp.cpp;
-		name = PikaTest.cpp;
-		path = /Users/magnus/projects/PikaScript/tests/PikaTest.cpp;
-		sourceTree = "<absolute>";
-	};
-	F7B0340C13722C7C00F7005C /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F7905B0510C47FD100FF4A18 /* PikaScript.cpp */;
-		name = "PikaScript.cpp: 32";
-		rLen = 0;
-		rLoc = 1395;
-		rType = 0;
-		vrLen = 2267;
-		vrLoc = 103;
-	};
-	F7B0340D13722C7C00F7005C /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F7905B0610C47FD100FF4A18 /* PikaScript.h */;
-		name = "PikaScript.h: 555";
-		rLen = 0;
-		rLoc = 46690;
-		rType = 0;
-		vrLen = 2366;
-		vrLoc = 0;
-	};
-	F7B0341013722C7C00F7005C /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F7B0341113722C7C00F7005C /* UpdatePikaScriptDox.pika */;
-		name = "UpdatePikaScriptDox.pika: 26";
-		rLen = 0;
-		rLoc = 1035;
-		rType = 0;
-		vrLen = 1114;
-		vrLoc = 0;
-	};
-	F7B0341113722C7C00F7005C /* UpdatePikaScriptDox.pika */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = text;
-		name = UpdatePikaScriptDox.pika;
-		path = /Users/magnus/projects/PikaScript/dox/UpdatePikaScriptDox.pika;
-		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1191, 624}}";
-			sepNavSelRange = "{1035, 0}";
-			sepNavVisRange = "{0, 1114}";
-		};
-	};
-	F7B0341613722C7C00F7005C /* PBXTextBookmark */ = {
-		isa = PBXTextBookmark;
-		fRef = F7B0341713722C7C00F7005C /* htmlify.pika */;
-		name = "htmlify.pika: 47";
-		rLen = 8;
-		rLoc = 2612;
-		rType = 0;
-		vrLen = 2412;
-		vrLoc = 764;
-	};
-	F7B0341713722C7C00F7005C /* htmlify.pika */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = text;
-		name = htmlify.pika;
-		path = /Users/magnus/projects/PikaScript/dox/htmlify.pika;
-		sourceTree = "<absolute>";
-		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1191, 3757}}";
-			sepNavSelRange = "{2612, 8}";
-			sepNavVisRange = "{764, 2410}";
-			sepNavWindowFrame = "{{42, 0}, {1238, 752}}";
-		};
+		customDataFormattersEnabled = 1;
+		dataTipCustomDataFormattersEnabled = 1;
+		dataTipShowTypeColumn = 1;
+		dataTipSortType = 0;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = "PikaCmd GCC 64-bit";
+		showTypeColumn = 0;
+		sourceDirectories = (
+		);
 	};
 	F7B2F97B10C48AD800CD08A4 /* BuiltIns.cpp */ = {
 		uiCtxt = {
-			sepNavFolds = "{\n    c =     (\n                {\n            l = \"##\";\n            r = \"{6601, 6}\";\n            s = 1;\n        },\n                {\n            l = \"##\";\n            r = \"{8666, 6}\";\n            s = 1;\n        }\n    );\n    r = \"{0, 91968}\";\n    s = 0;\n}";
-			sepNavIntBoundsRect = "{{0, 0}, {952, 11479}}";
+			sepNavFolds = "{\n    c =     (\n                {\n            l = \"##\";\n            r = \"{6601, 6}\";\n            s = 1;\n        },\n                {\n            l = \"##\";\n            r = \"{8666, 6}\";\n            s = 1;\n        }\n    );\n    r = \"{0, 92019}\";\n    s = 0;\n}";
+			sepNavIntBoundsRect = "{{0, 0}, {952, 12636}}";
 			sepNavSelRange = "{91958, 0}";
-			sepNavVisRange = "{0, 1317}";
+			sepNavVisRange = "{58, 1259}";
 			sepNavVisRect = "{{8923, 6176}, {1096, 695}}";
 		};
 	};
 	F7B8C1F910CC7DCD00EC2AE3 /* PikaScriptImpl.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {952, 13689}}";
-			sepNavSelRange = "{1263, 0}";
-			sepNavVisRange = "{0, 2325}";
+			sepNavIntBoundsRect = "{{0, 0}, {1839, 13429}}";
+			sepNavSelRange = "{45120, 4}";
+			sepNavVisRange = "{43208, 924}";
 			sepNavVisRect = "{{0, 1047}, {1096, 700}}";
 			sepNavWindowFrame = "{{50, 0}, {1230, 778}}";
 		};
 	};
-	F7E347EB1288988400F6D4AE /* BuildPikaCmdGCC.command */ = {
-		isa = PBXFileReference;
-		lastKnownFileType = text.script.sh;
-		name = BuildPikaCmdGCC.command;
-		path = /Users/magnus/projects/PikaScript/PikaCmd/BuildPikaCmdGCC.command;
-		sourceTree = "<absolute>";
+	F7CD477916DA896800101EF2 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F7905B0910C47FD100FF4A18 /* QStrings.h */;
+		name = "QStrings.h: 144";
+		rLen = 0;
+		rLoc = 6733;
+		rType = 0;
+		vrLen = 2212;
+		vrLoc = 5912;
+	};
+	F7E8546616B83B3D009B0B05 /* PikaCmd GCC 64-bit */ = {
+		activeExec = 0;
+		executables = (
+			F79520ED16B83C2200F0485E /* PikaCmd GCC 64-bit */,
+		);
 	};
 	F7E8EF6410C49136003BD514 /* QuickVars.h */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1644, 2014}}";
-			sepNavSelRange = "{368, 0}";
+			sepNavIntBoundsRect = "{{0, 0}, {952, 1430}}";
+			sepNavSelRange = "{531, 0}";
+			sepNavVisRange = "{0, 2158}";
 			sepNavVisRect = "{{0, 0}, {977, 645}}";
 			sepNavWindowFrame = "{{50, 0}, {1230, 778}}";
 		};
@@ -538,10 +419,10 @@
 		countType = 0;
 		delayBeforeContinue = 0;
 		exceptionName = $;
-		hitCount = 1;
+		hitCount = 0;
 		ignoreCount = 0;
 		isThrow = 1;
-		modificationTime = 288363351.702657;
+		modificationTime = 381280273.064984;
 		originalNumberOfMultipleMatches = 0;
 		state = 1;
 	};
@@ -549,7 +430,7 @@
 		isa = XCCPPCondition;
 		conditionString = "On Throw";
 	};
-	F7EE8C2E112A1BA300B04671 /* PikaScriptImpl.h:284 */ = {
+	F7EE8C2E112A1BA300B04671 /* PikaScriptImpl.h:282 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -559,11 +440,31 @@
 		delayBeforeContinue = 0;
 		fileReference = F7B8C1F910CC7DCD00EC2AE3 /* PikaScriptImpl.h */;
 		functionName = "STLValue<S>::operator[]";
-		hitCount = 1;
+		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 284;
-		modificationTime = 288363357.78238;
+		lineNumber = 282;
+		modificationTime = 381280273.062798;
 		originalNumberOfMultipleMatches = 1;
 		state = 0;
+	};
+	F7F5F2501707B2D100DAA47C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F7905AFD10C47FBF00FF4A18 /* PikaCmd.cpp */;
+		name = "PikaCmd.cpp: 52";
+		rLen = 0;
+		rLoc = 2089;
+		rType = 0;
+		vrLen = 2006;
+		vrLoc = 652;
+	};
+	F7F673CB17255F6900C8E0F8 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F7905B0610C47FD100FF4A18 /* PikaScript.h */;
+		name = "PikaScript.h: 101";
+		rLen = 0;
+		rLoc = 7368;
+		rType = 0;
+		vrLen = 5784;
+		vrLoc = 4322;
 	};
 }

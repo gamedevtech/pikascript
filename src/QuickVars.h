@@ -8,13 +8,13 @@
 	
 	\version
 
-	Version 0.92
+	Version 0.94
 		
 	\page Copyright
 
 	PikaScript is released under the "New Simplified BSD License". http://www.opensource.org/licenses/bsd-license.php
 	
-	Copyright (c) 2009, NuEdge Development
+	Copyright (c) 2009-2013, NuEdge Development
 	All rights reserved.
 
 	Redistribution and use in source and binary forms, with or without modification, are permitted provided that the

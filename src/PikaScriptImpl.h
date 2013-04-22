@@ -9,13 +9,13 @@
 	                                                                           
 	\version
 	
-	Version 0.93
+	Version 0.941
 	
 	\page Copyright
 	
 	PikaScript is released under the "New Simplified BSD License". http://www.opensource.org/licenses/bsd-license.php
 	
-	Copyright (c) 2009-2011, NuEdge Development / Magnus Lidstroem
+	Copyright (c) 2009-2013, NuEdge Development / Magnus Lidstroem
 	All rights reserved.
 
 	Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -75,6 +75,11 @@ inline uint uintChar(char c) { return uchar(c); }
 inline uint uintChar(wchar_t c) { return c; }
 template<class C> std::basic_ostream<C>& xcout();
 template<class C> std::basic_istream<C>& xcin();
+template<> inline std::basic_ostream<char>& xcout() { return std::cout; }
+template<> inline std::basic_ostream<wchar_t>& xcout() { return std::wcout; }
+template<> inline std::basic_istream<char>& xcin() { return std::cin; }
+template<> inline std::basic_istream<wchar_t>& xcin() { return std::wcin; }
+template<> inline std::string toStdString(const std::string& s) { return s; }
 
 inline ulong shiftRight(ulong l, int r) { return l >> r; }
 inline ulong shiftLeft(ulong l, int r) { return l << r; }
@@ -83,7 +88,7 @@ inline ulong bitOr(ulong l, ulong r) { return l | r; }
 inline ulong bitXor(ulong l, ulong r) { return l ^ r; }
 
 template<class C> inline bool isSymbolChar(C c) {
-	return c >= 'a' && c <= 'z' || c >= 'A' && c <= 'Z' || c >= '0' && c <= '9' || c == '_' || c == '$';
+	return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == '$';
 }
 
 template<class C> inline bool maybeWhite(C c) { return (c == ' ' || c == '\t' || c == '\r' || c == '\n' || c == '/'); }
@@ -95,14 +100,14 @@ inline std::string& toStdString(std::string& s) { return s; }
 template<class S> ulong hexToLong(typename S::const_iterator& p, const typename S::const_iterator& e) {
 	assert(p <= e);
 	ulong l = 0;
-	for (; p < e && (*p >= '0' && *p <= '9' || *p >= 'A' && *p <= 'F' || *p >= 'a' && *p <= 'f'); ++p)
+	for (; p < e && ((*p >= '0' && *p <= '9') || (*p >= 'A' && *p <= 'F') || (*p >= 'a' && *p <= 'f')); ++p)
 		l = (l << 4) + (*p <= '9' ? *p - '0' : (*p & ~0x20) - ('A' - 10));
 	return l;
 }
 
 template<class S> long stringToLong(typename S::const_iterator& p, const typename S::const_iterator& e) {
 	assert(p <= e);
-	bool negative = (e - p > 1 && (*p == '+' || *p == '-') ? (*p++ == '-') : false);
+	bool negative = (e - p > 1 && ((*p == '+' || *p == '-') && p[1] >= '0' && p[1] <= '9') ? (*p++ == '-') : false);
 	long l = 0;
 	for (; p < e && *p >= '0' && *p <= '9'; ++p) l = l * 10 + (*p - '0');
 	return negative ? -l : l;
@@ -110,20 +115,20 @@ template<class S> long stringToLong(typename S::const_iterator& p, const typenam
 
 template<class S, class T> S intToString(T i, int radix, int minLength) {
 	assert(2 <= radix && radix <= 16);
-	assert(0 <= minLength);
-	typename S::value_type buffer[sizeof (T) * 8], * p = buffer + sizeof (T) * 8, * e = p - minLength;
+	assert(0 <= minLength && minLength <= sizeof (T) * 8);
+	typename S::value_type buffer[sizeof (T) * 8 + 1], * p = buffer + sizeof (T) * 8 + 1, * e = p - minLength;
 	for (T x = i; p > e || x != 0; x /= radix) {
-		assert(p >= buffer + 1);
+		assert(p >= buffer + 2);
 		*--p = STR("fedcba9876543210123456789abcdef")[15 + x % radix];													// Mirrored hex string to handle negative x.
 	}
 	if (std::numeric_limits<T>::is_signed && i < 0) *--p = '-';
-	return S(p, buffer + sizeof (T) * 8 - p);
+	return S(p, buffer + sizeof (T) * 8 + 1 - p);
 }
 
 template<class S> double stringToDouble(typename S::const_iterator& p, const typename S::const_iterator& e) {
 	assert(p <= e);
 	double d = 0, sign = (e - p > 1 && (*p == '+' || *p == '-') ? (*p++ == '-' ? -1.0 : 1.0) : 1.0);
-	if (std::numeric_limits<double>::has_infinity && e - p >= 8 && std::equal(p, p + 8, STR("infinity"))) {
+	if (std::numeric_limits<double>::has_infinity && e - p >= 8 && equal(p, p + 8, STR("infinity"))) {
 		p += 8;
 		d = std::numeric_limits<double>::infinity();
 	} else if (p < e && *p >= '0' && *p <= '9') {
@@ -133,8 +138,11 @@ template<class S> double stringToDouble(typename S::const_iterator& p, const typ
 			double f = 1.0;
 			do { d += (*p - '0') * (f *= 0.1); } while (++p < e && *p >= '0' && *p <= '9');
 		}
-		if (e - p > 1 && (*p == 'E' || *p == 'e'))
+		if (e - p > 1 && (*p == 'E' || *p == 'e')) {
+			typename S::const_iterator b = p;
 			d *= pow(10, double(stringToLong<S>(++p, e)));
+			if (p == b + 1) p = b;
+		}
 	}
 	return d * sign;
 }
@@ -147,23 +155,23 @@ template<class S> bool stringToDouble(const S& s, double& d) {
 
 template<class S> S doubleToString(double d, int precision) {
 	assert(1 <= precision && precision <= 24);
-	const double EPSILON = 1.0E-300, SMALL = 1.0E-5, LARGE = 1.0E+10;	
+	const double EPSILON = 1.0e-300, SMALL = 1.0e-5, LARGE = 1.0e+10;	
 	double x = fabs(d), y = x;
-	if (y < EPSILON) return S(STR("0"));
+	if (y <= EPSILON) return S(STR("0"));
 	else if (precision >= 12 && y < LARGE && long(d) == d) return intToString<S, long>(long(d));
 	else if (std::numeric_limits<double>::has_infinity && x == std::numeric_limits<double>::infinity())
 		return d < 0 ? S(STR("-infinity")) : S(STR("+infinity"));
 	typename S::value_type buffer[32], * bp = buffer + 2, * dp = bp, * pp = dp + 1, * ep = pp + precision;
 	for (; x >= 10.0 && pp < ep; x *= 0.1) ++pp;																		// Normalize values > 10 and move period position.
 	if (pp >= ep || y <= SMALL || y >= LARGE) {																			// Exponential treatment of very small or large values.
-		double e = floor(log10(y) + 1.0E-10);
+		double e = floor(log10(y) + 1.0e-10);
 		S exps(e >= 0 ? S(STR("e+")) : S(STR("e")));
 		exps += intToString<S, int>(int(e));
 		int maxp = 15;																									// Limit precision because of rounding errors in log10 etc
 		for (double f = fabs(e); f >= 8; f /= 10) --maxp;
 		return (doubleToString<S>(d * pow(0.1, e), mini(maxp, precision)) += exps);
 	}
-	for (; x < 1.0 && dp < buffer + 32; ++ep, x *= 10.0) {																// For values < 0, spit out leading 0's and increase precision.
+	for (; x < 1.0 && dp < buffer + 32; ++ep, x *= 10.0) {																// For values < 1, spit out leading 0's and increase precision.
 		*dp++ = '0';
 		if (dp == pp) *dp++ = '9';																						// Hop over period position (set to 9 to avoid when eliminating 9's).
 	}
@@ -192,18 +200,18 @@ template<class S> S unescape(typename S::const_iterator& p, const typename S::co
 	typedef typename S::value_type CHAR;
 	static const CHAR ESCAPE_CHARS[ESCAPE_CODE_COUNT] = { '\\', '\"', '\'',  'a',  'b',  'f',  'n',  'r',  't',  'v' };
 	static const CHAR ESCAPE_CODES[ESCAPE_CODE_COUNT] = { '\\', '\"', '\'', '\a', '\b', '\f', '\n', '\r', '\t', '\v' };
-	if (p >= e || *p != '"' && *p != '\'') throw Exception<S>(STR("Invalid string literal"));
+	if (p >= e || (*p != '"' && *p != '\'')) throw Exception<S>(STR("Invalid string literal"));
 	S d;
 	typename S::const_iterator b = ++p;
 	if (p[-1] == '\'') while (e - (p = std::find(p, e, '\'')) > 1 && p[1] == '\'') { d += S(b, ++p); b = ++p; }
 	else while (p < e && *p != '\"') {
-		if (*p == '\\') {
+		if (*p == '\\' && p + 1 < e) {
 			d += S(b, p);
 			const CHAR* f = std::find(ESCAPE_CHARS, ESCAPE_CHARS + ESCAPE_CODE_COUNT, *++p);
 			long l;
 			if (f != ESCAPE_CHARS + ESCAPE_CODE_COUNT) { ++p; l = ESCAPE_CODES[f - ESCAPE_CHARS]; }
-			else if (*p == 'x') { b = ++p; l = hexToLong<S>(p, mini(p + 2, e)); }
-			else if (*p == 'u') { b = ++p; l = hexToLong<S>(p, mini(p + 4, e)); }
+			else if (*p == 'x') { b = ++p; l = hexToLong<S>(p, (e - p > 2 ? p + 2 : e)); }
+			else if (*p == 'u') { b = ++p; l = hexToLong<S>(p, (e - p > 4 ? p + 4 : e)); }
 			else { b = p; l = stringToLong<S>(p, e); }
 			if (p == b) throw Exception<S>(STR("Invalid escape character"));
 			b = p;
@@ -316,13 +324,13 @@ TMPL T_TYPE(Frame*) Script<CFG>::Frame::resolveFrame(StringIt& p, const StringIt
 
 TMPL std::pair< T_TYPE(Frame*), T_TYPE(String) > Script<CFG>::Frame::resolveFrame(const String& identifier) const {
 	switch (identifier[0]) {
+		default:	return std::pair<Frame*, String>(closure, identifier);
 		case '$':	return std::pair<Frame*, String>(const_cast<Frame*>(this), identifier);
 		case ':': case '^': {
 			StringIt b = const_cast<const String&>(identifier).begin(), e = const_cast<const String&>(identifier).end();
 			Frame* frame = resolveFrame(b, e);
 			return std::pair<Frame*, String>(frame, String(b, e));
 		}
-		default:	return std::pair<Frame*, String>(closure, identifier);
 	}
 }
 
@@ -374,11 +382,11 @@ TMPL void Script<CFG>::Frame::white(StringIt& p, const StringIt& e) {
 			case ' ': case '\t': case '\r': case '\n': ++p; break;
 			case '/':	if (p + 1 < e && p[1] == '/') {
 							static const Char END_CHARS[] = { '\r', '\n' };
-							p = std::find_first_of(p += 2, e, END_CHARS, END_CHARS + 2);
+							p = find_first_of(p += 2, e, END_CHARS, END_CHARS + 2);
 							break;
 						} else if (p + 1 < e && p[1] == '*') {
 							static const Char END_CHARS[] = { '*', '/' };
-							p = std::search(p += 2, e, END_CHARS, END_CHARS + 2);
+							p = search(p += 2, e, END_CHARS, END_CHARS + 2);
 							if (p >= e) throw Xception(STR("Missing '*/'"));
 							p += 2;
 							break;
@@ -843,18 +851,6 @@ TMPL Script<CFG>::STLVariables::~STLVariables() {
 	for (typename NativeMap::iterator it = natives.begin(); it != natives.end(); ++it) delete it->second;
 }
 
-/* --- Standard Library --- */
-
-TMPL T_TYPE(Value) Script<CFG>::elevate(Frame& f) { return f.execute(f.get(getThisAndMethod(f).first, true)); }
-TMPL ulong Script<CFG>::length(const String& s) { return static_cast<ulong>(s.size()); }
-TMPL T_TYPE(String) Script<CFG>::lower(String s) { std::transform(s.begin(), s.end(), s.begin(), ::tolower); return s; }
-TMPL void Script<CFG>::print(const String& s) { xcout<Char>() << std::basic_string<Char>(s) << std::endl; }
-TMPL double Script<CFG>::random(double m) { return m * ::rand() / double(RAND_MAX); }
-TMPL T_TYPE(String) Script<CFG>::reverse(String s) { std::reverse(s.begin(), s.end()); return s; }
-TMPL void Script<CFG>::thrower(const String& s) { throw Xception(s); }
-TMPL T_TYPE(Value) Script<CFG>::time(const Frame&) { return double(::time(0)); }
-TMPL T_TYPE(String) Script<CFG>::upper(String s) { std::transform(s.begin(), s.end(), s.begin(), ::toupper); return s; }
-
 TMPL std::pair<T_TYPE(Value), T_TYPE(String)> Script<CFG>::getThisAndMethod(Frame& f) {
 	const String fn = f.get(STR("$callee"));
 	StringIt it = std::find(fn.rbegin(), fn.rend(), '.').base();
@@ -862,38 +858,50 @@ TMPL std::pair<T_TYPE(Value), T_TYPE(String)> Script<CFG>::getThisAndMethod(Fram
 	return std::pair<Value, String>(f.getPrevious().reference(String(fn.begin(), it - 1)), String(it, fn.end()));
 }
 
-TMPL T_TYPE(String) Script<CFG>::character(double d) {
+/* --- Standard Library --- */
+
+TMPL T_TYPE(Value) Script<CFG>::lib::elevate(Frame& f) { return f.execute(f.get(getThisAndMethod(f).first, true)); }
+TMPL ulong Script<CFG>::lib::length(const String& s) { return static_cast<ulong>(s.size()); }
+TMPL T_TYPE(String) Script<CFG>::lib::lower(String s) { transform(s.begin(), s.end(), s.begin(), ::tolower); return s; }
+TMPL void Script<CFG>::lib::print(const String& s) { xcout<Char>() << std::basic_string<Char>(s) << std::endl; }
+TMPL double Script<CFG>::lib::random(double m) { return m * rand() / double(RAND_MAX); }
+TMPL T_TYPE(String) Script<CFG>::lib::reverse(String s) { std::reverse(s.begin(), s.end()); return s; }
+TMPL void Script<CFG>::lib::thrower(const String& s) { throw Xception(s); }
+TMPL T_TYPE(Value) Script<CFG>::lib::time(const Frame&) { return double(::time(0)); }
+TMPL T_TYPE(String) Script<CFG>::lib::upper(String s) { transform(s.begin(), s.end(), s.begin(), ::toupper); return s; }
+
+TMPL T_TYPE(String) Script<CFG>::lib::character(double d) {
 	if (uintChar(Char(d)) != d) throw Xception(String(STR("Illegal character code: ")) += doubleToString<String>(d));
 	return String(1, Char(d));
 }
 
-TMPL uint Script<CFG>::ordinal(const String& s) {
+TMPL uint Script<CFG>::lib::ordinal(const String& s) {
 	if (s.size() != 1) throw Xception(String(STR("Value is not single character: ")) += escape(s));
 	return uintChar(s[0]);
 }
 
-TMPL bool Script<CFG>::deleter(const Frame& f) {
+TMPL bool Script<CFG>::lib::deleter(const Frame& f) {
 	Value x = f.get(STR("$0"));
 	std::pair<Frame*, String> fs = f.getPrevious().resolveFrame(x);
 	return fs.first->getVariables().erase(fs.second);
 }
 
-TMPL T_TYPE(Value) Script<CFG>::evaluate(const Frame& f) {
+TMPL T_TYPE(Value) Script<CFG>::lib::evaluate(const Frame& f) {
 	return f.resolveFrame(f.getOptional(STR("$1"))).first->evaluate(f.get(STR("$0")));
 }
 
-TMPL bool Script<CFG>::exists(const Frame& f) {
+TMPL bool Script<CFG>::lib::exists(const Frame& f) {
 	Value x = f.get(STR("$0"));
 	Value result;
 	std::pair<Frame*, String> fs = f.getPrevious().resolveFrame(x);
 	return fs.first->getVariables().lookup(fs.second, result);
 }
 
-TMPL ulong Script<CFG>::find(const String& a, const String& b) {
-	return static_cast<ulong>(std::find_first_of(a.begin(), a.end(), b.begin(), b.end()) - a.begin());
+TMPL ulong Script<CFG>::lib::find(const String& a, const String& b) {
+	return static_cast<ulong>(find_first_of(a.begin(), a.end(), b.begin(), b.end()) - a.begin());
 }
 
-TMPL void Script<CFG>::foreach(Frame& f) {
+TMPL void Script<CFG>::lib::foreach(Frame& f) {
 	Value arg1 = f.get(STR("$1"));
 	std::pair<Frame*, String> fs = f.getPrevious().resolveFrame(f.get(STR("$0"))[Value()]); 
 	typename Variables::VarList list;
@@ -904,17 +912,17 @@ TMPL void Script<CFG>::foreach(Frame& f) {
 	}
 }
 
-TMPL T_TYPE(String) Script<CFG>::input(const String& prompt) {
+TMPL T_TYPE(String) Script<CFG>::lib::input(const String& prompt) {
 	xcout<Char>() << std::basic_string<Char>(prompt);
 	std::basic_string<Char> s;
 	std::basic_istream<Char>& instream = xcin<Char>();
-	if (instream.bad()) throw Xception(STR("Input file error"));
 	if (instream.eof()) throw Xception(STR("Unexpected end of input file"));
+	if (!instream.good()) throw Xception(STR("Input file error"));
 	getline(instream, s);
 	return s;
 }
 
-TMPL T_TYPE(Value) Script<CFG>::invoke(Frame& f) {
+TMPL T_TYPE(Value) Script<CFG>::lib::invoke(Frame& f) {
 	Value source = f.get(STR("$2")), arg4 = f.getOptional(STR("$4"));
 	long offset = long(f.getOptional(STR("$3"), 0));
 	std::vector<Value> a(arg4.isVoid() ? long(f.get(source[String(STR("n"))])) - offset : long(arg4));
@@ -922,30 +930,30 @@ TMPL T_TYPE(Value) Script<CFG>::invoke(Frame& f) {
 	return f.call(f.getOptional(STR("$0")), f.getOptional(STR("$1")), long(a.size()), a.empty() ? 0 : &a[0]);
 }
 
-TMPL T_TYPE(String) Script<CFG>::load(const String& file) {
-	std::basic_ifstream<Char> instream(toStdString(file).c_str());														// Sorry, can't pass a wchar_t filename. MSVC supports it, but it is non-standard. So we convert to a std::string to be on the safe side.
+TMPL T_TYPE(String) Script<CFG>::lib::load(const String& file) {
+	std::basic_ifstream<Char> instream(toStdString(file).c_str());															// Sorry, can't pass a wchar_t filename. MSVC supports it, but it is non-standard. So we convert to a std::string to be on the safe side.
 	if (!instream.good()) throw Xception(String(STR("Cannot open file for reading: ")) += escape(file));
 	String chars;
 	while (!instream.eof()) {
-		if (instream.bad()) throw Xception(String(STR("Error reading from file: ")) += escape(file));
-		Char buffer[1024];
-		instream.read(buffer, 1024);
+		if (!instream.good()) throw Xception(String(STR("Error reading from file: ")) += escape(file));
+		Char buffer[4096];
+		instream.read(buffer, 4096);
 		chars += String(buffer, static_cast<typename String::size_type>(instream.gcount()));
 	}
 	return chars;
 }
 
-TMPL ulong Script<CFG>::mismatch(const String& a, const String& b) {
+TMPL ulong Script<CFG>::lib::mismatch(const String& a, const String& b) {
 	if (a.size() > b.size()) return static_cast<ulong>(std::mismatch(b.begin(), b.end(), a.begin()).first - b.begin());
 	else return static_cast<ulong>(std::mismatch(a.begin(), a.end(), b.begin()).first - a.begin());
 }
 
-TMPL ulong Script<CFG>::parse(Frame& f) {
+TMPL ulong Script<CFG>::lib::parse(Frame& f) {
 	const String source = f.get(STR("$0"));
 	return static_cast<ulong>(f.parse(source.begin(), source.end(), f.get(STR("$1"))) - source.begin());
 }
 
-TMPL T_TYPE(String) Script<CFG>::radix(const Frame& f) {
+TMPL T_TYPE(String) Script<CFG>::lib::radix(const Frame& f) {
 	int radix = f.get(STR("$1"));
 	if (radix < 2 || radix > 16) throw Xception(String(STR("Radix out of range: ")) += intToString<String>(radix));
 	int minLength = f.getOptional(STR("$2"), 1);
@@ -954,43 +962,43 @@ TMPL T_TYPE(String) Script<CFG>::radix(const Frame& f) {
 	return intToString<String, ulong>(f.get(STR("$0")), f.get(STR("$1")), minLength);
 }
 
-TMPL void Script<CFG>::save(const String& file, const String& chars) {
-	std::basic_ofstream<Char> outstream(toStdString(file).c_str());														// Sorry, can't pass a wchar_t filename. MSVC supports it, but it is non-standard. So we convert to a std::string to be on the safe side.
+TMPL void Script<CFG>::lib::save(const String& file, const String& chars) {
+	std::basic_ofstream<Char> outstream(toStdString(file).c_str());															// Sorry, can't pass a wchar_t filename. MSVC supports it, but it is non-standard. So we convert to a std::string to be on the safe side.
 	if (!outstream.good()) throw Xception(String(STR("Cannot open file for writing: ")) += escape(file));
 	outstream.write(chars.data(), chars.size());
-	if (outstream.bad()) throw Xception(String(STR("Error writing to file: ")) += escape(file));
+	if (!outstream.good()) throw Xception(String(STR("Error writing to file: ")) += escape(file));
 }
 
-TMPL ulong Script<CFG>::search(const String& a, const String& b) {
+TMPL ulong Script<CFG>::lib::search(const String& a, const String& b) {
 	return static_cast<ulong>(std::search(a.begin(), a.end(), b.begin(), b.end()) - a.begin());
 }
 
-TMPL ulong Script<CFG>::span(const String& a, const String& b) {
+TMPL ulong Script<CFG>::lib::span(const String& a, const String& b) {
 	typename String::const_iterator it;
 	for (it = a.begin(); it != a.end() && std::find(b.begin(), b.end(), *it) != b.end(); ++it);
 	return static_cast<ulong>(it - a.begin());
 }
 
-TMPL T_TYPE(String) Script<CFG>::precision(const Frame& f) {
+TMPL T_TYPE(String) Script<CFG>::lib::precision(const Frame& f) {
 	return doubleToString<String>(f.get(STR("$0")), mini(maxi(long(f.get(STR("$1"))), 1L), 16L));
 }
 
-TMPL int Script<CFG>::system(const String& command) {
+TMPL int Script<CFG>::lib::system(const String& command) {
 	int xc = (command.empty() ? -1 : ::system(toStdString(command).c_str()));
 	if (xc < 0) throw Xception(String(STR("Could not execute system command: ")) += escape(command));
 	return xc;
 }
 
-TMPL void Script<CFG>::trace(const Frame& f) {
+TMPL void Script<CFG>::lib::trace(const Frame& f) {
 	f.getRoot().setTracer(Precedence(int(f.getOptional(STR("$1"), int(TRACE_CALL)))), f.getOptional(STR("$0")));
 }
 
-TMPL T_TYPE(Value) Script<CFG>::tryer(Frame& f) {
+TMPL T_TYPE(Value) Script<CFG>::lib::tryer(Frame& f) {
 	try { f.call(String(), f.get(STR("$0")), 0); } catch (const Xception& x) { return x.getError(); }
 	return Value();
 }
 
-TMPL void Script<CFG>::addStandardNatives(Frame& f, bool includeIO) {
+TMPL void Script<CFG>::addLibraryNatives(Frame& f, bool includeIO) {
 	f.set(STR("VERSION"), PIKA_SCRIPT_VERSION);
 	f.set(STR("run"), STR(">::evaluate((>{ $s = load($0); if ($s{:2} == '#!') $s{find($s, \"\\n\"):} })($0), @$)"));	// Note: we need this as a "bootstrap" to include 'stdlib.pika'.
 	f.registerNative(STR("abs"), (double (*)(double))(fabs));
@@ -999,49 +1007,49 @@ TMPL void Script<CFG>::addStandardNatives(Frame& f, bool includeIO) {
 	f.registerNative(STR("atan"), (double (*)(double))(atan));
 	f.registerNative(STR("atan2"), (double (*)(double, double))(atan2));
 	f.registerNative(STR("ceil"), (double (*)(double))(ceil));
-	f.registerNative(STR("char"), character);
+	f.registerNative(STR("char"), lib::character);
 	f.registerNative(STR("cos"), (double (*)(double))(cos));
 	f.registerNative(STR("cosh"), (double (*)(double))(cosh));
-	f.registerNative(STR("delete"), deleter);
+	f.registerNative(STR("delete"), lib::deleter);
 	f.registerNative(STR("escape"), (String (*)(const String&))(escape));
-	f.registerNative(STR("exists"), exists);
-	f.registerNative(STR("elevate"), elevate);
-	f.registerNative(STR("evaluate"), evaluate);
+	f.registerNative(STR("exists"), lib::exists);
+	f.registerNative(STR("elevate"), lib::elevate);
+	f.registerNative(STR("evaluate"), lib::evaluate);
 	f.registerNative(STR("exp"), (double (*)(double))(exp));
-	f.registerNative(STR("find"), find);
+	f.registerNative(STR("find"), lib::find);
 	f.registerNative(STR("floor"), (double (*)(double))(floor));
-	f.registerNative(STR("foreach"), foreach);
-	f.set(STR("include"), STR(">::if (!exists(@::included[$0])) { ::included[$0] = true; run($0) }"));					// Note: we need this as a "bootstrap" to include 'stdlib.pika'.
-	if (includeIO) f.registerNative(STR("input"), input);
-	f.registerNative(STR("invoke"), invoke);
-	f.registerNative(STR("length"), length);
+	f.registerNative(STR("foreach"), lib::foreach);
+	f.set(STR("include"), STR(">::if (!exists(@::included[$0])) { invoke('run',, @$); ::included[$0] = true }"));		// Note: we need this as a "bootstrap" to include 'stdlib.pika'.
+	if (includeIO) f.registerNative(STR("input"), lib::input);
+	f.registerNative(STR("invoke"), lib::invoke);
+	f.registerNative(STR("length"), lib::length);
 	f.registerNative(STR("log"), (double (*)(double))(log));
 	f.registerNative(STR("log10"), (double (*)(double))(log10));
-	if (includeIO) f.registerNative(STR("load"), load);
-	f.registerNative(STR("lower"), lower);
-	f.registerNative(STR("mismatch"), mismatch);
-	f.registerNative(STR("ordinal"), ordinal);
+	if (includeIO) f.registerNative(STR("load"), lib::load);
+	f.registerNative(STR("lower"), lib::lower);
+	f.registerNative(STR("mismatch"), lib::mismatch);
+	f.registerNative(STR("ordinal"), lib::ordinal);
 	f.registerNative(STR("pow"), (double (*)(double, double))(pow));
-	f.registerNative(STR("parse"), parse);
-	f.registerNative(STR("precision"), precision);
-	if (includeIO) f.registerNative(STR("print"), print);
-	f.registerNative(STR("radix"), radix);
-	f.registerNative(STR("random"), random);
-	f.registerNative(STR("reverse"), reverse);
+	f.registerNative(STR("parse"), lib::parse);
+	f.registerNative(STR("precision"), lib::precision);
+	if (includeIO) f.registerNative(STR("print"), lib::print);
+	f.registerNative(STR("radix"), lib::radix);
+	f.registerNative(STR("random"), lib::random);
+	f.registerNative(STR("reverse"), lib::reverse);
 	f.registerNative(STR("sin"), (double (*)(double))(sin));
 	f.registerNative(STR("sinh"), (double (*)(double))(sinh));
-	if (includeIO) f.registerNative(STR("save"), save);
-	f.registerNative(STR("search"), search);
-	f.registerNative(STR("span"), span);
+	if (includeIO) f.registerNative(STR("save"), lib::save);
+	f.registerNative(STR("search"), lib::search);
+	f.registerNative(STR("span"), lib::span);
 	f.registerNative(STR("sqrt"), (double (*)(double))(sqrt));
-	if (includeIO) f.registerNative(STR("system"), system);
+	if (includeIO) f.registerNative(STR("system"), lib::system);
 	f.registerNative(STR("tan"), (double (*)(double))(tan));
 	f.registerNative(STR("tanh"), (double (*)(double))(tanh));
-	f.registerNative(STR("time"), time);
-	f.registerNative(STR("throw"), thrower);
-	f.registerNative(STR("trace"), trace);
-	f.registerNative(STR("try"), tryer);
-	f.registerNative(STR("upper"), upper);
+	f.registerNative(STR("time"), lib::time);
+	f.registerNative(STR("throw"), lib::thrower);
+	f.registerNative(STR("trace"), lib::trace);
+	f.registerNative(STR("try"), lib::tryer);
+	f.registerNative(STR("upper"), lib::upper);
 }
 
 TMPL Script<CFG>::Native::~Native() { }
@@ -1051,6 +1059,6 @@ TMPL Script<CFG>::Variables::~Variables() { }
 #undef T_TYPE
 #undef STR
 
-};
+} // namespace Pika
 
 #endif

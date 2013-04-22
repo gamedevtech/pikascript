@@ -7,25 +7,25 @@ What is PikaScript?
  PikaScript is a small interpreting C-style scripting language implemented with modern C++ programming techniques. The
 source code for PikaScript is amazingly compact. It's core is around 1000 lines of C++ plus an additional header file of
 500 lines including doxygen comments. The optional standard library (written in PikaScript), providing utilities for
-strings, math, algorithms and objects (including a mark and swipe garbage collector) is less than 300 lines of source
-code. Despite it's small size the language is powerful enough to support sophisticated concepts such as higher order
-functions and closures.
+strings, math, algorithms and objects (including a mark and swipe garbage collector) is around 300 lines of source code
+Despite it's small size the language is powerful enough to support sophisticated concepts such as higher order functions
+and closures.
 
 Goals of PikaScript
 -------------------
 
  -  Compact bug-free implementation in modern C++.
-
+   
  -  Easy to interface with host code. /E.g., all variables are represented by C++ strings./
-
+   
  -  100% interpreted. /No compilation pass required, just load a string and run./
-
+   
  -  Minimalistic language syntax. /E.g., all statements counts as expressions and return values, eliminating redundant/
    /operators such as/ `? :` /(instead/ `if` /may be used inside expressions)./
-
+   
  -  Extremely dynamic with full run-time reflection of variables, code and even stack. /(Making it possible to actually/
    /write debuggers in PikaScript.)/
-
+   
  -  No heap and no need for memory management (explicit or implicit). /The only dynamically allocated entity in/
    /PikaScript is the variable. E.g., a vector is a number of variables linked by name only./
 
@@ -37,7 +37,7 @@ Non-goals of PikaScript
    
  -  Small memory footprint. /PikaScript can eat memory like a horse, especially if you use standard STL maps and/
    /strings for variable storage (which is the default configuration)./
-
+   
  -  Object-orientation. /You can create and use objects in PikaScript, but it is a secondary language contruct created/
    /without explicit support from the language syntax./
 
@@ -518,7 +518,7 @@ Further Reading
 ===============
 
  - PikaScript Standard Library Reference : help/index.html
-
+   
  - PikaScript C++ API Reference (Doxygen) : html/index.html
 
 Copyrights and Trademarks
@@ -532,13 +532,13 @@ Copyrights and Trademarks
 
  *)  Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
     following conditions are met:
-
+    
  *)  Redistributions of source code must retain the above copyright notice, this list of conditions and the following
     disclaimer.
-
+    
  *)  Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following
     disclaimer in the documentation and/or other materials provided with the distribution.
-
+    
  *)  Neither the name of the NuEdge Development nor the names of its contributors may be used to endorse or promote
     products derived from this software without specific prior written permission.
 

@@ -1,6 +1,6 @@
 #! /usr/local/bin/PikaCmd
 
-run('../src/stdlib.pika');
+include('stdlib.pika');
 
 ::textToCpp = function {
 	args(@source);

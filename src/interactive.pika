@@ -1,5 +1,14 @@
 #! /usr/local/bin/PikaCmd
 
+/*
+	interactive.pika v0.941
+
+	PikaScript is released under the "New Simplified BSD License". http://www.opensource.org/licenses/bsd-license.php
+	
+	Copyright (c) 2009-2013, NuEdge Development / Magnus Lidstroem
+	All rights reserved.
+*/
+
 interact = function {
 	HELP = '
 Enter expressions to evaluate them interactively line by line. E.g.:
@@ -26,8 +35,8 @@ Special commands are:
     <page>?                  shows a page from the standard library help system (type ''help?'' for more info)
     =                        displays the full definition of the last evaluated expression
     <variable>=              displays the full definition of a variable / function / container 
-    #                        re-run last executed PikaScript source file
-    #['']<path>[''] [args...]  runs a PikaScript source file (optionally with arguments)
+    %                        re-run last executed PikaScript source file
+    %['']<path>[''] [args...]  runs a PikaScript source file (optionally with arguments)
     !<command>               executes a command with the operating system''s command interpreter
     exit                     exits
 ';
@@ -44,17 +53,17 @@ Special commands are:
 	for (; {
 		if ((s = input(prompt)) === 'exit') ( false )
 		else {
-			tryThis => (::_ = evaluate(s, where));
-			printThis = '----- ( {oneLine(toSource(::_))} )';
+			::__ = void;
+			tryThis => (::__ = evaluate(s, where));
+			printThis = '----- ( {oneLine(toSource(::__))} )';
 			
-			if (s === '?') { tryThis => print(HELP); printThis = void }
-			else if (right(s, 1) === '?') { tryThis => help(chop(s, 1)); printThis = void }
-			else if (s{0} === '#') {
-				if (s === '#' && !exists(@arglist.n)) {
+			if (s{0} === '!') tryThis => (::__ = system(s{1:}))
+			else if (s{0} === '%') {
+				if (s === '%' && !exists(@arglist.n)) {
 					tryThis = void;
 					printThis = "No PikaScript source executed yet."
 				} else {
-					if (s !== '#') {
+					if (s !== '%') {
 						for (prune(@arglist); s !== void; s = s{i:}) {
 							s = s{1 + span(s{1:}, ' '):};
 							if (s !== void) {
@@ -64,11 +73,15 @@ Special commands are:
 						};
 						if (!wildmatch(arglist[0], '*.[^/:\]*')) arglist[0] #= '.pika';
 					};
-					print('----- Running ' # arglist[0]);
-					tryThis => (::_ = invoke('run', , @arglist));
+					l = '';
+					iterate(@arglist, >l #= ' ' # escape($2));
+					print('----- Running' # l);
+					tryThis => (::__ = invoke('run', , @arglist));
 				}
-			} else if (s{0} === '!') tryThis => (::_ = system(s{1:}))
+			}
 			else if (s === '=') { tryThis => show(::_); printThis = void }
+			else if (s === '?') { tryThis => print(HELP); printThis = void }
+			else if (right(s, 1) === '?') { tryThis => help(chop(s, 1)); printThis = void }
 			else if (right(s, 1) === '=') { tryThis => show(@[where][chop(s, 1)]); printThis = void }
 			else if (right(s, 1) === '{') {
 				print('(Multi-line input. Finish with a single ''}''.)');
@@ -77,6 +90,7 @@ Special commands are:
 
 			if (tryThis !== void && (x = try(tryThis)) !== void) printThis = '!!!!! {x}';
 			if (printThis !== void) print(bake(printThis));
+			::_ = ::__;
 			( true )
 		}
 	}; );

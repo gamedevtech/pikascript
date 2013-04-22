@@ -5,13 +5,13 @@
 	
 	\version
 	
-	Version 0.93
+	Version 0.941
 	
 	\page Copyright
 	
 	PikaScript is released under the "New Simplified BSD License". http://www.opensource.org/licenses/bsd-license.php
 	
-	Copyright (c) 2009-2011, NuEdge Development / Magnus Lidstroem
+	Copyright (c) 2009-2013, NuEdge Development / Magnus Lidstroem
 	All rights reserved.
 
 	Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -47,10 +47,5 @@
 namespace Pika {
 
 template struct Script<StdConfig>;
-template<> std::basic_ostream<char>& xcout() { return std::cout; }
-template<> std::basic_ostream<wchar_t>& xcout() { return std::wcout; }
-template<> std::basic_istream<char>& xcin() { return std::cin; }
-template<> std::basic_istream<wchar_t>& xcin() { return std::wcin; }
-template<> std::string toStdString(const std::string& s) { return s; }
 
 } // namespace Pika

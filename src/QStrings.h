@@ -17,13 +17,13 @@
 
 	\version
 	
-	Version 0.92
+	Version 0.94
 	
 	\page Copyright
 	
 	PikaScript is released under the "New Simplified BSD License". http://www.opensource.org/licenses/bsd-license.php
 	
-	Copyright (c) 2009, NuEdge Development
+	Copyright (c) 2009-2013, NuEdge Development
 	All rights reserved.
 
 	Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -52,6 +52,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stddef.h>
 #include <wchar.h>
 #include <string>
 #include <algorithm>
@@ -194,7 +195,7 @@ template<typename C, size_t PS> template<typename E, class Q> class QString<C, P
 	public:		_iterator& operator++() { ++p; return (*this); }
 	public:		_iterator& operator--() { --p; return (*this); }
 	public:		const _iterator operator++(int) { _iterator copy(*this); ++p; return copy; }
-	public:		const _iterator operator--(int) { _iterator copy(*this); ++p; return copy; }
+	public:		const _iterator operator--(int) { _iterator copy(*this); --p; return copy; }
 	public:		template<typename E2, class Q2> _iterator& operator=(const _iterator<E2, Q2>& copy) {
 					p = copy.p;
 					s = copy.s;
@@ -246,6 +247,7 @@ template<typename C, size_t PS> void QString<C, PS>::release() throw() {
 template<typename C, size_t PS> QString<C, PS>::~QString() throw() { release(); }
 
 template<typename C, size_t PS> void QString<C, PS>::newBuffer(size_type l, const C* b, size_type extra) {
+	assert(l == 0 || b != 0);
 	buffer = new Buffer(l + extra + 1);
 	pointer = buffer->chars;
 	length = l;
@@ -253,9 +255,13 @@ template<typename C, size_t PS> void QString<C, PS>::newBuffer(size_type l, cons
 	pointer[length] = 0;
 }
 
-template<typename C, size_t PS> QString<C, PS>::QString(C* s) { newBuffer(std::char_traits<C>::length(s), s); }
+template<typename C, size_t PS> QString<C, PS>::QString(C* s) {
+	assert(s != 0);
+	newBuffer(std::char_traits<C>::length(s), s);
+}
 
 template<typename C, size_t PS> QString<C, PS>::QString(const C* b, size_type l, size_type extra) {
+	assert(b != 0);
 	newBuffer(l, b, extra);
 }
 
@@ -278,6 +284,8 @@ template<typename C, size_t PS> QString<C, PS>::QString(const_iterator b, const_
 }
 
 template<typename C, size_t PS> QString<C, PS>::QString(const C* b, const C* e) {
+	assert(b != 0);
+	assert(e != 0);
 	assert(b <= e);
 	newBuffer(e - b, b);
 }
@@ -302,6 +310,7 @@ template<typename C, size_t PS> QString<C, PS>& QString<C, PS>::operator=(const 
 }
 
 template<typename C, size_t PS> QString<C, PS>& QString<C, PS>::append(const C* p, size_type l) {
+	assert(p != 0);
 	bool fit = (pointer + length + l < buffer->chars + buffer->size);
 	if (buffer->rc != 1 && fit && memcmp(pointer + length, p, l) == 0) {
 		length += l;
@@ -318,6 +327,7 @@ template<typename C, size_t PS> QString<C, PS>& QString<C, PS>::append(const C* 
 }
 
 template<typename C, size_t PS> QString<C, PS> QString<C, PS>::concat(const C* p, size_type l) const {
+	assert(p != 0);
 	QString copy(pointer, length, l + (l < size_type(65536) ? l : size_type(65536)));
 	copychars(copy.pointer + copy.length, p, l);
 	copy.length += l;

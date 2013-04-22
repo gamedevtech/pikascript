@@ -5,13 +5,13 @@
 	
 	\version
 	
-	Version 0.93
+	Version 0.941
 	
 	\page Copyright
 	
 	PikaScript is released under the "New Simplified BSD License". http://www.opensource.org/licenses/bsd-license.php
 	
-	Copyright (c) 2009-2011, NuEdge Development / Magnus Lidstroem
+	Copyright (c) 2009-2013, NuEdge Development / Magnus Lidstroem
 	All rights reserved.
 
 	Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -58,10 +58,10 @@ namespace Pika {
 
 #if (PIKA_UNICODE)
 	#define STR(s) L##s
-	#define PIKA_SCRIPT_VERSION L"0.93"
+	#define PIKA_SCRIPT_VERSION L"0.941"
 #else
 	#define STR(x) x
-	#define PIKA_SCRIPT_VERSION "0.93"
+	#define PIKA_SCRIPT_VERSION "0.941"
 #endif
 
 typedef unsigned char uchar;
@@ -262,10 +262,9 @@ enum Precedence {
 	-# \c Locals		(when a function call occurs, this sub-class of Variables will be instantiated for the callee)
 	-# \c Globals		(this sub-class of Variables is used for the FullRoot class)
 */
-template<class CFG> struct Script {
+template<class Config> struct Script {
 
-	typedef CFG Config;																									///< The configuration meta-class. E.g. StdConfig.
-	typedef typename CFG::Value Value;																					///< The class used for all values and variables (defined by the configuration meta-class). E.g. STLValue.
+	typedef typename Config::Value Value;																				///< The class used for all values and variables (defined by the configuration meta-class). E.g. STLValue.
 	typedef typename Value::String String;																				///< The class used for strings (defined by the string class). E.g. \c std::string.
 	typedef typename String::value_type Char;																			///< The character type for all strings (defined by the string class). E.g. \c char.
 	typedef typename String::size_type SizeType;																		///< The length type for all strings (defined by the string class). E.g. \c size_t.
@@ -415,13 +414,13 @@ template<class CFG> struct Script {
 	};
 	
 	/**
-		FullRoot inherits from both Root and CFG::Globals (which should be a descendant to Variable). Its constructor
-		adds the natives of the standard library. This means that by instantiating this class you will get a full
-		execution environment for PikaScript ready to go.
+		FullRoot inherits from both Root and Config::Globals (which should be a descendant to Variable). Its
+		constructor adds the natives of the standard library. This means that by instantiating this class you will get
+		a full execution environment for PikaScript ready to go.
 	*/
-	class FullRoot : public Root, public CFG::Globals {
-		public:		FullRoot(bool includeIONatives = true) : Root(*(typename CFG::Globals*)(this)) {					///< If \p includeIO is false, 'load', 'save', 'input', 'print' and 'system' will not be registered.
-						addStandardNatives(*this, includeIONatives);
+	class FullRoot : public Root, public Config::Globals {
+		public:		FullRoot(bool includeIONatives = true) : Root(*(typename Config::Globals*)(this)) {					///< If \p includeIO is false, 'load', 'save', 'input', 'print' and 'system' will not be registered.
+						addLibraryNatives(*this, includeIONatives);
 					}
 	};
 	
@@ -527,40 +526,42 @@ template<class CFG> struct Script {
 		name.
 	*/
 	static std::pair<Value, String> getThisAndMethod(Frame& frame);
-	static Value elevate(Frame& frame);																					///< Used to "aggregate" different method calls into a single function call.
 	static Value getThis(Frame& frame) { return getThisAndMethod(frame).first; }										///< Returns only the "this" value as descripted in getThisAndMethod().
 	static Value getMethod(Frame& frame) { return getThisAndMethod(frame).second; }										///< Returns only the "method" value as descripted in getThisAndMethod().
 
-	static String character(double d);
-	static bool deleter(const Frame& frame);
-	static Value evaluate(const Frame& frame);
-	static bool exists(const Frame& frame);
-	static ulong find(const String& a, const String& b);
-	static void foreach(Frame& frame);
-	static String input(const String& prompt);
-	static Value invoke(Frame& frame);
-	static ulong length(const String& s);
-	static String load(const String& file);
-	static String lower(String s);
-	static ulong mismatch(const String& a, const String& b);
-	static uint ordinal(const String& s);
-	static ulong parse(Frame& frame);
-	static String precision(const Frame& frame);
-	static void print(const String& s);
-	static String radix(const Frame& frame);
-	static double random(double m);
-	static String reverse(String s);
-	static void save(const String& file, const String& chars);
-	static int system(const String& command);
-	static ulong search(const String& a, const String& b);
-	static ulong span(const String& a, const String& b);
-	static void thrower(const String& s);
-	static Value time(const Frame&);
-	static void trace(const Frame& frame);
-	static Value tryer(Frame& frame);
-	static String upper(String s);
+	struct lib {
+		static Value elevate(Frame& frame);																				///< Used to "aggregate" different method calls into a single function call.
+		static String character(double d);
+		static bool deleter(const Frame& frame);
+		static Value evaluate(const Frame& frame);
+		static bool exists(const Frame& frame);
+		static ulong find(const String& a, const String& b);
+		static void foreach(Frame& frame);
+		static String input(const String& prompt);
+		static Value invoke(Frame& frame);
+		static ulong length(const String& s);
+		static String load(const String& file);
+		static String lower(String s);
+		static ulong mismatch(const String& a, const String& b);
+		static uint ordinal(const String& s);
+		static ulong parse(Frame& frame);
+		static String precision(const Frame& frame);
+		static void print(const String& s);
+		static String radix(const Frame& frame);
+		static double random(double m);
+		static String reverse(String s);
+		static void save(const String& file, const String& chars);
+		static int system(const String& command);
+		static ulong search(const String& a, const String& b);
+		static ulong span(const String& a, const String& b);
+		static void thrower(const String& s);
+		static Value time(const Frame&);
+		static void trace(const Frame& frame);
+		static Value tryer(Frame& frame);
+		static String upper(String s);
+	};
 	
-	static void addStandardNatives(Frame& frame, bool includeIO = true);												///< Registers the standard native functions to \p frame. If \p includeIO is false, 'load', 'save', 'input', 'print' and 'system' will not be registered. Please, refer to the PikaScript standard library reference guide for more info on individual native functions.
+	static void addLibraryNatives(Frame& frame, bool includeIO = true);													///< Registers the standard library native functions to \p frame. If \p includeIO is false, 'load', 'save', 'input', 'print' and 'system' will not be registered. Please, refer to the PikaScript standard library reference guide for more info on individual native functions.
 
 }; // struct Script
 
