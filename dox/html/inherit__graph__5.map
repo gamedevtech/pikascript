@@ -1,3 +1,0 @@
-<area shape="rect" href="$class_pika_1_1_script_1_1_native.html" title="Native is the base class for the native functions and objects that can be accessed..." alt="" coords="5,31,195,57">
-<area shape="rect" href="$class_pika_1_1_script_1_1_binary_functor.html" title="See UnaryFunctor for documentation." alt="" coords="244,5,577,32">
-<area shape="rect" href="$class_pika_1_1_script_1_1_unary_functor.html" title="We provide two Native template classes for bridging PikaScript calls to C++ &quot;functors&quot;..." alt="" coords="257,56,564,83">

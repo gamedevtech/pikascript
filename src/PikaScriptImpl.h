@@ -9,13 +9,13 @@
 	                                                                           
 	\version
 	
-	Version 0.941
+	Version 0.942
 	
 	\page Copyright
 	
 	PikaScript is released under the "New Simplified BSD License". http://www.opensource.org/licenses/bsd-license.php
 	
-	Copyright (c) 2009-2013, NuEdge Development / Magnus Lidstroem
+	Copyright (c) 2009-2014, NuEdge Development / Magnus Lidstroem
 	All rights reserved.
 
 	Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -39,13 +39,14 @@
 	OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if !defined(PikaScriptImpl_h)
-#define PikaScriptImpl_h 0x0100
+#ifndef PikaScriptImpl_h
+#define PikaScriptImpl_h
 
 #include <math.h>
 #include <time.h>
 #include <string.h>
 #include <algorithm>
+#include <functional>
 #include <iostream>
 #include <fstream>
 #include <limits>
@@ -115,7 +116,7 @@ template<class S> long stringToLong(typename S::const_iterator& p, const typenam
 
 template<class S, class T> S intToString(T i, int radix, int minLength) {
 	assert(2 <= radix && radix <= 16);
-	assert(0 <= minLength && minLength <= sizeof (T) * 8);
+	assert(0 <= minLength && minLength <= static_cast<int>(sizeof (T) * 8));
 	typename S::value_type buffer[sizeof (T) * 8 + 1], * p = buffer + sizeof (T) * 8 + 1, * e = p - minLength;
 	for (T x = i; p > e || x != 0; x /= radix) {
 		assert(p >= buffer + 2);
@@ -184,7 +185,6 @@ template<class S> S doubleToString(double d, int precision) {
 	if (x >= 5) {																										// If remainder is >= 5, increment trailing 9's...
 		while (dp[-1] == '9') *--dp = '0';
 		if (dp == bp) *--bp = '1'; else dp[-1]++;																		// If we are at spare position, set to '1' and include, otherwise, increment last non-9.
-		if (dp[-1] == '1') --ep;																						// We incremented a 0, cut precision (afterwards, a bit Q&D).
 	}
 	*pp = '.';
 	if (ep > pp) while (ep[-1] == '0') --ep;
@@ -925,7 +925,9 @@ TMPL T_TYPE(String) Script<CFG>::lib::input(const String& prompt) {
 TMPL T_TYPE(Value) Script<CFG>::lib::invoke(Frame& f) {
 	Value source = f.get(STR("$2")), arg4 = f.getOptional(STR("$4"));
 	long offset = long(f.getOptional(STR("$3"), 0));
-	std::vector<Value> a(arg4.isVoid() ? long(f.get(source[String(STR("n"))])) - offset : long(arg4));
+	long n = arg4.isVoid() ? long(f.get(source[String(STR("n"))])) - offset : long(arg4);
+	if (n < 0) throw Xception(STR("Too few array elements"));
+	std::vector<Value> a(n);
 	for (long i = 0; i < long(a.size()); ++i) a[i] = f.get(source[i + offset]);
 	return f.call(f.getOptional(STR("$0")), f.getOptional(STR("$1")), long(a.size()), a.empty() ? 0 : &a[0]);
 }
@@ -980,12 +982,12 @@ TMPL ulong Script<CFG>::lib::span(const String& a, const String& b) {
 }
 
 TMPL T_TYPE(String) Script<CFG>::lib::precision(const Frame& f) {
-	return doubleToString<String>(f.get(STR("$0")), mini(maxi(long(f.get(STR("$1"))), 1L), 16L));
+	return doubleToString<String>(f.get(STR("$0")), mini(maxi(int(f.get(STR("$1"))), 1), 16));
 }
 
 TMPL int Script<CFG>::lib::system(const String& command) {
 	int xc = (command.empty() ? -1 : ::system(toStdString(command).c_str()));
-	if (xc < 0) throw Xception(String(STR("Could not execute system command: ")) += escape(command));
+	if (xc < 0) throw Xception(String(STR("Error executing system command: ")) += escape(command));
 	return xc;
 }
 

@@ -116,7 +116,7 @@
 	<h4>Syntax</h4>
 	<pre class="syntax">'string' = precision(+value, +precision)</pre>
 	<h4>Description</h4>
-	<div class="description"><p>Converts +value to a decimal number string (in scientific E notation if required). +precision is the maximum number of digits to include in the output. Scientific E notation (e.g. 1.3e+3) will be used if +precision is smaller than the number of digits required to express +value in decimal notation. The maximum number of characters returned is (+precision) plus 7 (for possible minus sign, decimal point and exponent).</p></div>
+	<div class="description"><p>Converts +value to a decimal number string (in scientific E notation if required). +precision is the maximum number of digits to include in the output. Scientific E notation (e.g. 1.3e+3) will be used if +precision is smaller than the number of digits required to express +value in decimal notation. The maximum number of characters returned is +precision plus 7 (for possible minus sign, decimal point and exponent).</p></div>
 	<h4>Examples</h4><pre class="examples">precision(12345, 3) === '1.23e+4'<br>precision(9876, 8) === '9876'<br>precision(9876.54321, 8) === '9876.5432'<br>precision(-0.000000123456, 5) === '-1.2346e-7'<br>precision(+infinity, 1) === '+infinity'</pre>
 	<h4>See Also</h4><p class="seealso"><a href="#radix">radix</a>, <a href="math.html#trunc">trunc</a></p>
 </div>
@@ -235,9 +235,9 @@
 <div>
 	<h3><a name="tokenize">tokenize</a></h3>
 	<h4>Syntax</h4>
-	<pre class="syntax">tokenize('source', &gt;process, ['delimiters' = "\n"])</pre>
+	<pre class="syntax">tokenize('source', &gt;processor, ['delimiters' = "\n"])</pre>
 	<h4>Description</h4>
-	<div class="description"><p>Divides the 'source' string into tokens separated by any character in 'delimiters' (linefeed by default). For every extracted token, &gt;process is called, passing the token as the single argument $0 (not including the delimiter). The final delimiter at the end of the string is optional. For example, tokenize() can be useful for reading individual lines from a text file, parsing tab or comma-separated data and splitting sentences into separate words.</p></div>
+	<div class="description"><p>Divides the 'source' string into tokens separated by any character in 'delimiters' (linefeed by default). For every extracted token, &gt;processor is called, passing the token as the single argument $0 (not including the delimiter). The final delimiter at the end of the string is optional. For example, tokenize() can be useful for reading individual lines from a text file, parsing tab or comma-separated data and splitting sentences into separate words.</p></div>
 	<h4>Examples</h4><pre class="examples">tokenize("First line\nSecond line\nLast line\n", &gt;append(@lines, $0))<br>tokenize('Eeny, meeny, miny, moe', &gt;print(trim($0)), ',')<br>tokenize('Data is not information, information is not knowledge, knowledge is not understanding, understanding is not!wisdom.', &gt;if ($0 !== '') append(@words, $0), " \t\r\n,.!?&amp;\"/;:=-()[]{}")</pre>
 	<h4>See Also</h4><p class="seealso"><a href="utils.html#parse">parse</a>, <a href="#trim">trim</a>, <a href="#wildmatch">wildmatch</a></p>
 </div>

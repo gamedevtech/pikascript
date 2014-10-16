@@ -47,8 +47,8 @@
 	OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if !defined(QStrings_h)
-#define QStrings_h 0x0100
+#ifndef QStrings_h
+#define QStrings_h
 
 #include <stdlib.h>
 #include <string.h>
@@ -57,6 +57,7 @@
 #include <string>
 #include <algorithm>
 #include <limits>
+#include "assert.h"
 
 namespace QStrings {
 

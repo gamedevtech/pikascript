@@ -382,6 +382,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "PikaCmd GCC 64-bit";
 				SYMROOT = "$(PROJECT_DIR)/build/Mac/GCC";
 			};
@@ -391,6 +392,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "PikaCmd GCC 64-bit";
 				SYMROOT = "$(PROJECT_DIR)/build/Mac/GCC";
 			};

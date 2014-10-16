@@ -7,13 +7,13 @@
 
 	\version
 
-	Version 0.941
+	Version 0.942
 	
 	\page Copyright
 
 	PikaScript is released under the "New Simplified BSD License". http://www.opensource.org/licenses/bsd-license.php
 	
-	Copyright (c) 2010-2013, NuEdge Development / Magnus Lidstroem
+	Copyright (c) 2010-2014, NuEdge Development / Magnus Lidstroem
 	All rights reserved.
 
 	Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -169,7 +169,7 @@ int main(int argc, const char* argv[]) {
 	std::srand(static_cast<unsigned int>(std::time(0)) ^ static_cast<unsigned int>(std::clock()));
 	rand();
 	if (argc < 2)
-		std::cout << "PikaCmd version " << PIKA_SCRIPT_VERSION << ". (C) 2010-2013 NuEdge Development. "
+		std::cout << "PikaCmd version " << PIKA_SCRIPT_VERSION << ". (C) 2010-2014 NuEdge Development. "
 				"All rights reserved." << std::endl << "Run PikaCmd -? for command-line argument syntax."
 				<< std::endl << std::endl;
 	try {

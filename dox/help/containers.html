@@ -29,7 +29,7 @@
 	<pre class="syntax">@target = clone(@source, @target)</pre>
 	<h4>Description</h4>
 	<div class="description"><p>Makes a "deep copy" of the container @source to @target, meaning that all elements under the source and any sub-elements that they may have (and so on) will be copied to the target. If there is a variable directly at @source it will also be copied to @target. The returned value is the input @target reference.</p><p>Notice that this function does not erase any existing elements under @target. You may want to consider calling prune() on @target first.</p></div>
-	<h4>Examples</h4><pre class="examples">clone(@myCarbonCopy, @originalData)</pre>
+	<h4>Examples</h4><pre class="examples">clone(@originalData, @myCarbonCopy)</pre>
 	<h4>See Also</h4><p class="seealso"><a href="arrays.html#copy">copy</a>, <a href="#prune">prune</a></p>
 </div>
 <hr>
@@ -70,7 +70,7 @@
 <div>
 	<h3><a name="redotify">redotify</a></h3>
 	<h4>Syntax</h4>
-	<pre class="syntax">'yesdots' = redotify('nodots')</pre>
+	<pre class="syntax">'zzz...' = redotify('zzz%2e%2e%2e')</pre>
 	<h4>Description</h4>
 	<div class="description"><p>Decodes an "undotified" string as returned from undotify(). See help for "undotify" for further explanation and examples.</p></div>
 	<h4>Examples</h4><pre class="examples">redotify('nearly 50%25 use google%2ecom daily') === 'nearly 50% use google.com daily'</pre>
@@ -92,9 +92,9 @@
 <div>
 	<h3><a name="undotify">undotify</a></h3>
 	<h4>Syntax</h4>
-	<pre class="syntax">'nodots' = undotify('yesdots')</pre>
+	<pre class="syntax">'zzz%2e%2e%2e' = undotify('zzz...')</pre>
 	<h4>Description</h4>
-	<div class="description"><p>Simply returns a copy of 'source' where all '.' have been replaced with '%2e' and all '%' have been replaced with '%25'. The purpose of this function is to allow arbitrary strings to work as keys in multi-dimensional arrays / deep containers. Without "undotifying" keys, any '.' in the keys would be interpreted as separators. E.g. "files['name.ext'].size" is the same as "files.name.ext.size", which is probably not what you want. Instead use "files[undotify('name.ext')].size". To return the original key from an "undotified" key, use redotify().</p></div>
+	<div class="description"><p>Simply replaces all '.' with '%2e' and all '%' with '%25'. The purpose of this function is to allow arbitrary strings to work as keys in multi-dimensional arrays / deep containers. Without "undotifying" keys, any '.' in the keys would be interpreted as separators. E.g. "files['name.ext'].size" is the same as "files.name.ext.size", which is probably not what you want. Instead use "files[undotify('name.ext')].size". To return the original key from an "undotified" key, use redotify().</p></div>
 	<h4>Examples</h4><pre class="examples">undotify('nearly 50% use google.com daily') === 'nearly 50%25 use google%2ecom daily'<br>redotify(undotify('a.b.c%d.e.f')) === 'a.b.c%d.e.f'</pre>
 	<h4>See Also</h4><p class="seealso"><a href="#redotify">redotify</a></p>
 </div>

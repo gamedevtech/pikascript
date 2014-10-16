@@ -5,13 +5,13 @@
 	
 	\version
 	
-	Version 0.941
+	Version 0.942
 	
 	\page Copyright
 	
 	PikaScript is released under the "New Simplified BSD License". http://www.opensource.org/licenses/bsd-license.php
 	
-	Copyright (c) 2009-2013, NuEdge Development / Magnus Lidstroem
+	Copyright (c) 2009-2014, NuEdge Development / Magnus Lidstroem
 	All rights reserved.
 
 	Redistribution and use in source and binary forms, with or without modification, are permitted provided that the
@@ -35,13 +35,14 @@
 	OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if !defined(PikaScript_h)
-#define PikaScript_h 0x0100
+#ifndef PikaScript_h
+#define PikaScript_h
 
 #include "assert.h" // Note: I always include assert.h like this so that you can override it with a "local" file.
 #include <vector>
 #include <map>
 #include <string>
+#include <functional>
 
 // These are defined as macros in the Windows headers and collide with some of our "proper" C++ definitions. Sorry, it
 // just ain't right to use global macros in C++. I #undef them. Include PikaScript.h before the Windows headers if you
@@ -58,10 +59,10 @@ namespace Pika {
 
 #if (PIKA_UNICODE)
 	#define STR(s) L##s
-	#define PIKA_SCRIPT_VERSION L"0.941"
+	#define PIKA_SCRIPT_VERSION L"0.942"
 #else
 	#define STR(x) x
-	#define PIKA_SCRIPT_VERSION "0.941"
+	#define PIKA_SCRIPT_VERSION "0.942"
 #endif
 
 typedef unsigned char uchar;

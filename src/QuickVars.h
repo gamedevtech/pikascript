@@ -38,8 +38,8 @@
 	OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if !defined(QuickVars_h)
-#define QuickVars_h 0x0100
+#ifndef QuickVars_h
+#define QuickVars_h
 
 #if !defined(PikaScriptImpl_h)
 #include "PikaScriptImpl.h"

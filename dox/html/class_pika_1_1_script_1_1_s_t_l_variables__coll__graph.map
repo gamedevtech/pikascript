@@ -1,4 +1,4 @@
-<map id="G" name="G">
-<area shape="rect" id="node2" href="$class_pika_1_1_script_1_1_variables.html" title="Variables is an abstract base class which implements the interface to the variable space that a Frame..." alt="" coords="332,5,545,35"/>
-<area shape="rect" id="node8" href="$class_pika_1_1_script_1_1_native.html" title="Native is the base class for the native functions and objects that can be accessed from PikaScript..." alt="" coords="7,112,204,141"/>
+<map id="Pika::Script&lt; Config &gt;::STLVariables" name="Pika::Script&lt; Config &gt;::STLVariables">
+<area shape="rect" id="node2" href="$class_pika_1_1_script_1_1_variables.html" title="Variables is an abstract base class which implements the interface to the variable space that a Frame..." alt="" coords="280,5,428,47"/>
+<area shape="rect" id="node5" href="$class_pika_1_1_script_1_1_native.html" title="Native is the base class for the native functions and objects that can be accessed from PikaScript..." alt="" coords="5,136,153,177"/>
 </map>

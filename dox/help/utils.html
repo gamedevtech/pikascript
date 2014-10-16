@@ -48,7 +48,7 @@
 <div>
 	<h3><a name="coalesce">coalesce</a></h3>
 	<h4>Syntax</h4>
-	<pre class="syntax">&lt;value&gt; = coalesce(&lt;values&gt; | @variables, ...)</pre>
+	<pre class="syntax">&lt;value&gt; = coalesce(&lt;values&gt;|@variables, ...)</pre>
 	<h4>Description</h4>
 	<div class="description"><p>Returns the first &lt;value&gt; in the argument list that is non-void, or the contents of the first @variables that exists (whichever comes first). void is returned if everything else fails.</p><p>A word of warning here, if a string value happens to look like a reference (e.g. '::') it will be interpreted as a such which may yield unexpected results. E.g. coalesce('::uhuh', 'oops') will not return 'oops' if a global variable named 'uhuh' exists.</p></div>
 	<h4>Examples</h4><pre class="examples">coalesce(@gimmeVoidIfNotDefined)<br>coalesce(maybeVoid, perhapsThisAintVoid, 'nowIAmDefinitelyNotVoid')</pre>
@@ -116,7 +116,7 @@
 	<h4>Syntax</h4>
 	<pre class="syntax">include('filePath')</pre>
 	<h4>Description</h4>
-	<div class="description"><p>Runs a PikaScript source file as with run() but only if 'filePath' has not been "included" before. The function determines this by checking the existance of a global ::included[filePath]. It defines this global before running 'filePath' for the first time. (run() does not define or use this global.) Use include() with source files that defines library functions and constants, e.g. 'stdlib.pika'.</p></div>
+	<div class="description"><p>Runs a PikaScript source file as with run() but only if 'filePath' has not been "included" before. The function determines this by checking the existance of a global ::included[filePath]. It defines this global after completing execution the first time. (run() does not define or use this global.) Use include() with source files that defines library functions and constants, e.g. 'stdlib.pika'.</p></div>
 	<h4>Examples</h4><pre class="examples">include('stdlib.pika')</pre>
 	<h4>See Also</h4><p class="seealso"><a href="#run">run</a></p>
 </div>
@@ -138,7 +138,7 @@
 	<h4>Syntax</h4>
 	<pre class="syntax">&lt;result&gt; = invoke(['callee'], [&gt;body], @args, [+offset = 0], [+count])</pre>
 	<h4>Description</h4>
-	<div class="description"><p>Calls 'callee' (or &gt;body) with the argument list @args. The difference between using 'callee' or &gt;body is that the former should be a string with a function name, while the latter should be an actual function body. If both arguments are present, &gt;body will be executed, but the called function's $callee variable will be set to 'callee'. For debugging purposes it is recommended that you use the 'callee' argument.</p><p>+offset can be used to adjust the element index for the first argument. +count is the number of arguments. If it is omitted, [@args].n is used to determine the count.</p></div>
+	<div class="description"><p>Calls 'callee' (or &gt;body) with the argument list @args. The difference between using 'callee' or &gt;body is that the former should be a string with a function name, while the latter should be an actual function body. If both arguments are present, &gt;body will be executed, but the called function's $callee variable will be set to 'callee'. For debugging purposes it is recommended that you use the 'callee' argument.</p><p>+offset can be used to adjust the element index for the first argument. +count is the number of arguments. If it is omitted, [@args].n is used to determine the count.</p><p>May throw 'Too few array elements'.</p></div>
 	<h4>Examples</h4><pre class="examples">invoke('max', , @values)<br>invoke('(callback)', $0, @$, 1, 4)</pre>
 	<h4>See Also</h4><p class="seealso"><a href="#evaluate">evaluate</a>, <a href="objects.html#invokeMethod">invokeMethod</a>, <a href="#run">run</a></p>
 </div>
@@ -224,7 +224,7 @@
 <div>
 	<h3><a name="sourceFor">sourceFor</a></h3>
 	<h4>Syntax</h4>
-	<pre class="syntax">'code' = sourceFor(@variable | @container, ['prefix' = ''])</pre>
+	<pre class="syntax">'code' = sourceFor(@variable|@container, ['prefix' = ''])</pre>
 	<h4>Description</h4>
 	<div class="description"><p>*** WARNING, THIS FUNCTION IS SLIGHTLY BROKEN AND MAY BE REMOVED. USE AT OWN RISK! ***</p><p>Creates source code for recalling the definition of @variable or @container (with all its sub-elements). The created code can be used with evaluate() to recall the definition in any given frame. For example: evaluate('code', @$) would recreate variables in the current local frame and evaluate('code', @::) would create them in the global frame.</p><p>Each output line will be prefixed with 'prefix'.</p></div>
 	<h4>Examples</h4><pre class="examples">save('AllGlobals.pika', sourceFor(@::))<br>evaluate(sourceFor(@wildmatch)) == wildmatch<br>evaluate(sourceFor(@::globalToLocalPlease), @$)<br>print(sourceFor(@myFunction, "\t\t"))</pre>
@@ -248,7 +248,7 @@
 	<h4>Syntax</h4>
 	<pre class="syntax">+exitCode = system('command')</pre>
 	<h4>Description</h4>
-	<div class="description"><p>Tries to execute 'command' through the operating system's command interpreter. +exitCode is the return value from the command interpreter (a value of 0 usually means no error). May throw 'Could not execute system command: {command}'.</p></div>
+	<div class="description"><p>Tries to execute 'command' through the operating system's command interpreter. +exitCode is the return value from the command interpreter (a value of 0 usually means no error). May throw 'Error executing system command: {command}'.</p></div>
 	
 	
 </div>
@@ -259,7 +259,7 @@
 	<h4>Syntax</h4>
 	<pre class="syntax">throw('error')</pre>
 	<h4>Description</h4>
-	<div class="description"><p>Throws an exception. 'error' should describe the error in human readable form. Use try() to catch errors. (PikaScript exceptions are standard C++ exceptions. How uncaught exceptions are handled is up to the host application.)</p></div>
+	<div class="description"><p>Throws an exception. 'error' should describe the error in human readable form. Use try() to catch errors. (PikaScript exceptions are standard C++ exceptions. It is up to the host application how uncaught exceptions are handled.)</p></div>
 	<h4>Examples</h4><pre class="examples">throw('Does not compute')</pre>
 	<h4>See Also</h4><p class="seealso"><a href="#try">try</a></p>
 </div>
@@ -270,7 +270,7 @@
 	<h4>Syntax</h4>
 	<pre class="syntax">+secs = time()</pre>
 	<h4>Description</h4>
-	<div class="description"><p>Returns the system clock as the number of seconds passed since January 1 1970 (or at least, if that is how the C time() function works on your platform).</p></div>
+	<div class="description"><p>Returns the system clock as "epoch time", i.e. the number of seconds that has passed since a specific reference date (usually January 1 1970).</p></div>
 	<h4>Examples</h4><pre class="examples">elapsed = time() - lastcheck</pre>
 	
 </div>

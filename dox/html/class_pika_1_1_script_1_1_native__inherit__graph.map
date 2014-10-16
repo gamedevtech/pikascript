@@ -1,4 +1,4 @@
-<map id="G" name="G">
-<area shape="rect" id="node3" href="$class_pika_1_1_script_1_1_binary_functor.html" title="See UnaryFunctor for documentation." alt="" coords="255,5,601,35"/>
-<area shape="rect" id="node5" href="$class_pika_1_1_script_1_1_unary_functor.html" title="We provide two Native template classes for bridging PikaScript calls to C++ &quot;functors&quot;." alt="" coords="268,59,588,88"/>
+<map id="Pika::Script&lt; Config &gt;::Native" name="Pika::Script&lt; Config &gt;::Native">
+<area shape="rect" id="node2" href="$class_pika_1_1_script_1_1_binary_functor.html" title="See UnaryFunctor for documentation. " alt="" coords="201,5,360,61"/>
+<area shape="rect" id="node3" href="$class_pika_1_1_script_1_1_unary_functor.html" title="We provide two Native template classes for bridging PikaScript calls to C++ &quot;functors&quot;. " alt="" coords="202,85,359,141"/>
 </map>

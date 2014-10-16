@@ -47,10 +47,10 @@
 	OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include <assert.h>
 #if !defined(QStrings_h)
 #include "QStrings.h"
 #endif
+#include "assert.h"
 
 namespace QStrings {
 
@@ -81,7 +81,7 @@ void unitTest() {
 		t += QString<char>(c, 1);
 	}
 	assert(t == s);
-	assert(cs.end() - cs.begin() == cs.size());
+	assert(static_cast<size_t>(cs.end() - cs.begin()) == cs.size());
 	assert(cs.end() - cs.size() == cs.begin());
 	assert(cs.begin() + cs.size() == cs.end());
 	assert(QString<char>(cs.begin(), cs.begin() + 3) == "hej");

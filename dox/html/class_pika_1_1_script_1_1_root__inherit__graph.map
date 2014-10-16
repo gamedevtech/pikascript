@@ -1,4 +1,4 @@
-<map id="G" name="G">
-<area shape="rect" id="node5" href="$class_pika_1_1_script_1_1_full_root.html" title="FullRoot inherits from both Root and CFG::Globals (which should be a descendant to Variable)..." alt="" coords="5,160,211,189"/>
-<area shape="rect" id="node2" href="$class_pika_1_1_script_1_1_frame.html" title="The execution context and interpreter for PikaScript." alt="" coords="9,5,207,35"/>
+<map id="Pika::Script&lt; Config &gt;::Root" name="Pika::Script&lt; Config &gt;::Root">
+<area shape="rect" id="node3" href="$class_pika_1_1_script_1_1_full_root.html" title="FullRoot inherits from both Root and Config::Globals (which should be a descendant to Variable)..." alt="" coords="5,184,153,225"/>
+<area shape="rect" id="node2" href="$class_pika_1_1_script_1_1_frame.html" title="The execution context and interpreter for PikaScript. " alt="" coords="5,5,153,47"/>
 </map>
